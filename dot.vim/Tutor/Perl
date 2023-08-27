@@ -1,0 +1,267 @@
+i#### DATA TYPE 
+## SCALAR
+  $var: store number, string, reference
+  
+  $var = 3;
+  $var = "string"
+  string-related:
+    repeat:         x     -> $var x4 = $var $var $var
+    concatenation   .     -> $var . 'some string' = concatenate those string;
+                  ${var}  -> $path = home/u/${var} ;
+                  join    -> $name = join ('', '/home/u/', $var);
+  number: $i++
+
+INPUT DATA FROM KEYBOARD:
+    chomp ( $var = <STDIN> )
+    ($var1, $var2) = @arr 
+    ($var1, @arr2) = @arr (the @arr2 is the remaining after the 
+                            first element is assign to $var1)
+
+## LIST TYPE 
+# PURE LIST = ( ,   ,  )
+
+# ARRAY
+  @arr: store list of scalar value
+  
+  @arr = ( 'string', 12, (pure list) )       --> (  ,  ,  ) expand list inside
+  @arr = qw/mon tues wed thurs fri sat sun/  --> ( "mon", "tues", ... )
+  @arr = (1 .. 100)                          --> (1,2,..100)
+  
+  the first element is 0;
+  $arr[0] ; $arr[$i]; 
+
+  $length = @arr   -> number of element in the array
+  $#arr            -> index of the last number
+    $arr[-1] = $arr[$#arr]
+  
+  @newarr = sort ($a cmp $b)@arr : sort ascending in terms of ASCII (DEFAULT)
+  @newarr = sort ($a <=> $b)@arr : sort ascending in terms of number
+  
+  print @arr : list all element concatenated without space. To fix this, define:
+          $, : Output field separator, default empty
+          $/ : Output record separator, default empty
+          $" : List separator, in INTERPOLATE form
+  print "@arr" : INTERPOLATE form - print elements with space between.
+
+# HASH
+
+  %hash = ('key', value, 'key' => value, key => value); can ENTER each pair of element
+  keys %hash; values %hash : return array of keys or value 
+  
+  @arr = @hash{key1, key2'}
+  $hash{'key'}
+
+#### CONDITION AND LOOP
+
+  $_ : default variable --> make script shorter and more condense
+  FLOW CONTROL:
+    last: break the loop
+    next: skip to next iteration
+    redo: restart that iteration
+
+## CONDITION
+
+  if ( ) { } elsif ( ) { } else { }
+  unless ( ) { }
+  ternary: cond ? true : false
+
+  short form: 
+    action if ( );
+    action unless ( );
+
+  switch is a lable so it can be change
+  SWITCH:{ 
+    $a eq --- && do { action; last SWITCH;};
+  }
+
+## LOOP
+  
+  while ( ) { }
+  until ( ) { }
+  do { } while ( ); MUST HAVE SEMI COLON AT THE END
+  do { } until ( );
+  foreach my $i (@arr) { }
+  for (my $i = ; $i < ; $i++){ }
+  for (my @i = ( ) ; @i < ; pop @i){ }
+  continue { } after WHILE and FOREACH:
+   
+    while (EXPR) {
+      ### redo always comes here
+      do_something;
+    } continue {
+      ### next always comes here
+      do_something_else;
+      # then back the top to re-check EXPR
+    }
+    ### last always comes here
+
+#### FUNCTION MANIPUALTE ARRAY
+
+## GREP : 
+--> In list context, return an array of element that match 
+  
+  @newarr = grep { $_ >= xxx && $_ <= yyy} @arr
+  @newarr = grep /x/, @arr
+
+--> In hash context
+  $_ is the element of the input array
+  @newarr = grep { $_ >= xxx || $hash{$_} < yyy } keys %hash 
+
+--> In scalar context. return the number of times the expression was true
+  number of the element of the array that pass the condition
+  $scalar = @arr
+
+## SPLICE -> make change to the input arr
+  splice(@arr, start, length, replacement)
+      cut the element in the @arr and replace it -> make change to the @arr 
+      return the value that it cut
+  splice(@arr, start, 0     , replacement)
+      add the replacement to the start point 
+
+## PUSH -> make change to the input arr
+  push(@arr,$add) : add to the last of the arr -> make change to the @arr
+
+## POP -> make change to the input arr
+  pop(@arr) : remove the last element of the arr -> make change to the @arr
+              return the element that it remove
+   
+## SHIFT -> make change to the input arr
+  shift(@arr) : remove the first element of the @arr -> make change to the @arr
+                return the element that it remove
+
+## UNSHIFT -> make change to the input arr
+  unshift(@arr, $add) : add to the first element of the arr
+
+## JOIN 
+  join (delimiter, list type) : join all element in the array using delimiter and 
+                                return a scalar varible - a string
+
+## SPLIT
+  split (delimiter, scalar type) : split the scalar (string) into array using delimiter
+                                   return the array
+## REVERSE
+  reverse (@arr) : reverse all elements in arr -> return the new array after reversed
+## MAP
+  @newarr = map { $_ * ... } @arr : return a new array after the expression is done
+
+#### FUNCTION MANIPUALTE STRING
+## LENGTH
+  length $string : return the length of the string
+
+## INDEX <-> RINDEX
+  index ($str, $pattern, [offset]) : return the position of the pattern in the string
+                                     the first character is 0 ; return -1 if not found
+  rindex( ...................... ) : same as index but start searching from the end
+
+## SUBSTR 
+  substr ($str, $start, $length, $replacement)
+                                   : return the character from start position and length
+                                     in string ( start from 0 ). The original string is
+                                     not altered unless the replacement is defined
+## POS
+  pos () : get the position of the last match pattern ???
+#### REGEX
+
+## .*?
+  match the less in regex 
+## S/REGEX/REPLC/GI
+  $str =~ s/pattern/replc/ [flag] : substitute in string
+
+    $' : text before the match 
+    $&: the text matched
+    $` : text after the match
+
+#### SUBROUNTINE
+sub name { ... } : use @_ in the body to indicate the argument pass to subrountine
+&name (..) to call the subrountine. Inside the ( ) is the argument { @_ }
+
+#### FILE
+
+open (FILEHADLER, "<", "PATH_TO_FILE") || or die "cannot open : $!"
+open (FILEHADLER, ">", "PATH_TO_FILE") || or die "cannot open : $!"
+open (FILEHADLER, ">>", "PATH_TO_FILE") || or die "cannot open : $!"
+
+close FILEHANDLER   : for each operation OPEN
+
+READ: @line = <FILEHANDLER> : each line
+WRITE: printf FILEHANDLER "string"
+
+rename (oldname, newname)
+link/symlink (oldfile, newfile)
+readlink : return the path to the original file
+unlink  : remove link and DELETE FILE, EMPTY DIR
+
+FILE GLOBING
+  @files = <path/*.pl> -> list context, return a list of files
+  while (<*.pl>){ statement};
+  @files = glob 'path/*.pl' 
+
+DICTIONARY LISTING
+  opendir (HANDLER, "PATH_TO_DIR") or die " $!"
+  while ( defined($file = readdir(HANDLER) ) ) {statement}
+  closedir (HANDLER);
+
+#### ADVANCED KNOWLEDGE 
+#### REFERENCE + DEREFERENCE 
+#### IT LIKE POINTER IN C, STORING ADDRESS OF THE VARIABLE
+
+#REF is a scalar variable to store the address (string)
+$scalarref  = \$scalar  : get the memory location scalar (the address)
+$arrayref   = \@array   : get the memory location array  (the address)
+$hashref    = \%hash    : get the memory location hash   (the address)
+  
+#DEREF
+$newscalar  = $$scalarref   : value inside of the address
+$newarray   = @$arrayref    : value inside of the address -> return the array
+$newarray   = $$arrayref[2] : value inside of the address
+$newhash    = %$hashref     : value inside of the address
+
+DEREFERENCE WITH ARROW OR BLOCK
+
+$value = $$arr_ref[0];
+$value = $arr_ref->[0];
+$value = $has_ref->{key};
+$value = ${$arr_ref}[0];
+$value = ${$has_ref}{key} ;
+
+ref scalar_referenced -> return the type of ref;
+
+## ANONYMOUS DATA -> NESTED DATA
+$arr = \@arr -> = [ ]
+$arr = \%has -> = { }
+
+## ARRAY OF ARRAY
+@greys = (
+          [ 0   , 1   , 3   ],
+          [ 63  , 64  , 66  ],
+          [ 127 , 131 , 129 ],
+          [ 191 , 187 , 195 ],
+          [ 255 , 261 , 250 ],
+         )
+print $greys[1]->[2]; (66)
+
+## HASH OF ARRAY
+%schedule = (
+              'monday   ' => [ 'archery    ' , 'soccer  ' , 'dance   ' ],
+              'tuesday  ' => [ 'basketweave' , 'swimming' , 'canoeing' ],
+              'wednesday' => [ 'nature walk' , 'soccer  ' , 'dance   ' ],
+              'thursday ' => [ 'free time  ' , 'swimming' , 'canoeing' ],
+              'friday   ' => [ 'archery    ' , 'soccer  ' , 'hike    ' ],
+            );
+print $schedule{'monday'}->[1]; (soccer)
+
+## HASH OF HASH
+
+%people = (
+          'Jones' => {
+                      'name' => 'Alison',
+                      'age' => 15,
+                      'pet' => 'dog',
+                     },
+          'Smith' => {
+                      'name' => 'Tom',
+                      'age' => 18,
+                      'pet' => 'fish',
+                     },
+          );
+print $people{'Smith'}->{'pet'} (dog)

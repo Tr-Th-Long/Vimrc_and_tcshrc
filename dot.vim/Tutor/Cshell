@@ -1,0 +1,244 @@
+##SHELL COMMAND FOR MANIPULATE STRING
+
+SORT
+    -o name   : write the output to a file, this name can be identical to input
+    -u        : unique, remove duplicate
+    -f        : ignore case
+    -i        : ignore non printable character
+    -b        : ignore leading-blanks
+    -n        : sort by number
+    -r        : reverse
+    -c        : check if sorted or not
+    -k num    : sort base on the "num" field
+    -M        : sort base on Month
+    -R        : sort RANDOM
+WC
+    output: line word bytes filename
+    -l        : line
+    -w        : word
+    -m        : character (do count blank space
+    -c        : byte ( same same as -m)
+CUT 
+    output: keep the character it cut
+    -b ~ -c   : cut byte ~ character
+    -d -f     : define delimiter then cut the fields base on delimiter
+    -s        : line with no delimiter is pass
+    --complement : remove the cut
+    --output-delimiter= STRING : use this string as output delimiter
+STAT
+TR  : translate 
+    -c : complement
+    -d delete
+XARGS   : take each line of input then do action
+    -I place-holder: -I XXX echo ...+XXX
+PASTE   ; take two files and merge by column
+    -d  : delimiter default is tab
+    --  : make every two lines merge into one
+COLUMN  : edit the standard output
+    -s  : defind the separator use for table
+    -t  : make standard output like a table
+
+#DATA TYPES
+--> SCARLAR
+  - set name = ...
+    $name 
+  - @ name = "NUMBER"
+    @ name++
+
+    expand variable
+    set VAR = $name bk_$name bk_${name}_bk
+
+--> ARRAY
+  - set name = (arr1, arr2, ...  )
+    index       [1]   [2]
+  
+    $#name : length of array
+    $name[*] : all element of the array
+    $name[$#name] : last element of the array
+    $name[-3] : elements from 1-3
+    $name[3-] : elements from 3 to last
+
+--> CONDITIONAL STATEMENT
+  - if () command
+  - if () then command
+    elseif () then command
+    else command
+    endif
+  - switch () 
+      case "COND":
+        breaksw
+      default: 
+    endsw
+
+--> ITERATION STATEMENT
+  - foreach i ()
+      command
+    end
+  - while ()
+      command
+    end
+
+  --> FLOW CONTROL:
+  - break; continue in ITERATION
+  - goto LABEL 
+  LABEL: command
+
+
+#GREP
+  grep "PATTERN" FILE_PATH
+  grep -E = egrep :   EXTENDED REGEX
+  grep -G = grep  :   BASIC REGEX
+  
+  OPTION:
+    -A num        : "num" lines AFTER the match
+    -B num        : "num" lines BEFORE the match
+    -C num        : "num" lines BEFORE adnd AFTER the match (+/- num)
+    -c            : count the lines match ~ wc -l
+    -f            : read pattern from file
+    -e            : apply multi pattern
+    -H            : print FILE_NAME in output lines
+    -h            : DON'T print FILE_NAME in output lines
+    -i            : ignore case sensitive
+    -L            : FILE_NAME that NOT match the pattern
+    -l            : FILE_NAME that match the pattern
+    -m num        : stop at "num" match
+    -n            : print LINE NUMBER at output
+    -v            : print line that NOT match the pattern
+    -o            : print the MATCH PATTERN only
+    --label=name  : print "name" before lines
+
+#SED
+  sed 'ACTION' FILE_PATH
+  sed '/ADDRESS/ACTION' FILE_PATH
+  sed '/ADDRESS1/, /ADDRESS2/ACTION' FILE_PATH ; range of address
+  
+  ## ACTION ##
+
+  --> SUBSTITUTION
+  sed 's| pattern | replace | gi' 
+    default: replace the first match;
+    g: global in the lines; 
+    i: case insensitive;
+  & : for the match (act like back-reference in regex)
+
+  --> DELETE
+  sed '1,$d' 
+    delete range of line
+  sed '/ADDRESS/d' 
+    delete lines match the ADDRESS
+  
+  --> INSERT, APPEND, CHANGE
+  sed '/ADDRESS/[a|i|c]\ line modified ' CAN ENTER FOR NEWLINE FOR READABILITY
+    a: append BELOW the ADDRESS
+    i: insert ABOVE the ADDRESS
+    c: replace the ADDRESS
+
+  sed 'ADDRESS/r FILE_PATH'
+    read content of the file and insert it BELOW the ADDRESS line
+  
+  ## GROUP OF COMMAND and NEWLINE for READABILITY
+  -e  : for each action
+    sed -e '//d' -e 's///' 
+  ;   : same as -e but apply for some command
+    sed '//d ; s///' 
+  {\  :  { first action \ newline 
+    sed  '/# insert input_4_2.txt here/{r input_4_2.txt\                                         
+    d}'
+  sed script : put address and action; each action is a newline
+
+  OPTIONS
+    -E            : EXTENDED REGEX (ERE)
+    -e            : multi-action
+    -f            : read action from script file
+    -i            : make change to the files
+    -n            : suppress standard output
+    \=            : line number
+
+    sed '=' file | sed 'N; s/\n/ /' 
+    make line number in standard output
+
+#AWK
+  awk 'ACTION' FILE_PATH
+  
+  OPTION
+    -F            : define Field Separator
+    -f            : read ACTION from a file
+    -v var=value  : assign value before action
+
+  ACTION:
+
+    ## GENERAL LAYOUT
+    BEGIN { } 
+    { }
+    END { }
+
+    ## VARIABLE
+    variable = num        \\ scarlar
+    variable = "string"   \\ scarla
+    arr[index] = ...      \\ array index is number
+    arr["key"] = ...      \\ array index is string ASSOCIATIVE ARRAY
+
+    ## PRINT vs PRINTF vs SPRINTF
+    PRINT "LITERAL STRING" var1, var2 (parenthesis is optional)
+    PRINTF "format", var1 , var2 (substitute var into format)
+        format="%s %s"
+        printf format, var1, var2
+    SPRINTF like printf but assign to variable
+    use printf directly is BETTER THAN sprintf then print
+
+    ## BUILT-IN VARIABLE
+    FS        : Field Separator
+    OFS       : Output Field Separator
+    RS        : Record Separator
+    ORS       : Output Record Separator
+    NR        : Number of last field 
+
+    RLENGTH   : match func related
+    RSTART    : match func related
+    ARGC      :
+    ARGV      :
+    FILENAME  : name of the current input file
+
+    ## BUILT-IN FUNCTION FOR STRING PROCESS
+
+    INDEX (str, pattern) 
+              return the position of pattern in str
+              return 0 if not
+    LENGTH (t)
+              return length of str t
+              return length of arr t
+              return length of field of $0 if not given
+    MATCH (str, pattern)
+              return the position of pattern in str
+              assign RSTART = postion; RSTART=0 if not match
+              assgin RLENGTH = length of the match, RLENGTH=-1 if not match
+    SPLIT (str, arr,fs)
+              split string str to array arr by using fs as field separator
+    SUB (from, to, str)
+              replace from -> to in string str, if str is not defined use $0
+              \\& in to is a copied from from
+              return the number of replacements (1) 
+              if output of the replacement is needed, use print afterward.
+    GSUB(from, to, str) 
+              like sub but applied to the whole line instead of 
+              the first occurrence
+    SUBSTR (str, start, length)
+              return "length" character with "start" position (count from 1) 
+              in str. If length is not given, take the remaining in str
+    TOLOWER (str)
+              return a copy of str with LOWER CASE
+    TOUPPER (str)
+              return a copy of str with UPPER CASE
+
+    ## CONDITIONAL and ITERATION
+    - if () { } elseif ( ) { } else { }
+    - while ( ) { }
+    - do { } while ( )
+    - for (i=1;i<3;i++) { } 
+    - for ( i in arr ) { }  i is INDEX of arr
+    - break; continue for loop
+    - next; exit for next line in awk program
+
+    ## STRING MATCH
+    awk ' ($1 == " " || ... && ...) {} ' -> match exactly
+    awk ' ($1 ~  " " || ... && ...) {} ' -> match partly
