@@ -7,9 +7,9 @@ Strucure:
   |-...
 
 # VIM COLORSCHEME
-- [Solarized](https://ethanschoonover.com/solarized/)
+- Below are the original repositories github. Files colorscheme in the .vim folder are modded
 - [palenight](https://github.com/drewtempelmeyer/palenight.vim)
-- [monokai](https://github.com/ku1ik/vim-monokai)
+- [monokai](https://github.com/crusoexia/vim-monokai)
 - [monokai_pro](https://github.com/phanviet/vim-monokai-pro)
 
 # VIM COLOR CHEAT SHEET
@@ -27,7 +27,8 @@ Strucure:
 7. [How to use a value stored in a variable in the command mode?](https://vi.stackexchange.com/questions/16711/how-to-use-a-value-stored-in-a-variable-in-the-command-mode)
 
 # VIM PLUGIN
-[Highlight multiple word](https://vim.fandom.com/wiki/Highlight_multiple_words)
+[MultipleSearch](https://github.com/vim-scripts/MultipleSearch)
+[quickhl](https://github.com/t9md/vim-quickhl)
 
 # VIM CONFIGURE
 Main official link: [this](https://vimhelp.org/)
