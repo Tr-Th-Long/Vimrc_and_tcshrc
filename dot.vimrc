@@ -3,7 +3,10 @@ filetype plugin on
 runtime set.vim
 
 "========================================================================================
+"COLORS
+set termguicolors
 "colorscheme monokai
+"colorscheme monokai_pro
 colorscheme palenight
 
 "========================================================================================
@@ -26,6 +29,8 @@ runtime plugin/Surround.vim
 runtime plugin/Heading.vim
 "If vim Ctr-V and g-Ctr-A/X do column increase/decrease, do not need the below line
 runtime plugin/GlobalIncDec.vim
+runtime plugin/MultipleSearch.vim
+runtime plugin/quickhl.vim
 
 "========================================================================================
 " KEY MAP
@@ -46,6 +51,8 @@ nnoremap <S-Right>  :vertical resize +3<CR>
 nnoremap <leader>n    :set nu! <CR>
 nnoremap <leader>w    :set wrap! <CR>
 nnoremap <leader>l    :noh <CR>
+
+"quick highlight plugin mapping
 
 "========================================================================================
 " COMMAND
