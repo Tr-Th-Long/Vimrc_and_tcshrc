@@ -27,8 +27,8 @@ Strucure:
 7. [How to use a value stored in a variable in the command mode?](https://vi.stackexchange.com/questions/16711/how-to-use-a-value-stored-in-a-variable-in-the-command-mode)
 
 # VIM PLUGIN
-[MultipleSearch](https://github.com/vim-scripts/MultipleSearch)
-[quickhl](https://github.com/t9md/vim-quickhl)
+- [MultipleSearch](https://github.com/vim-scripts/MultipleSearch)
+- [quickhl](https://github.com/t9md/vim-quickhl)
 
 # VIM CONFIGURE
 Main official link: [this](https://vimhelp.org/)
